@@ -1,6 +1,6 @@
 ---
 title: "Joining Assignment"
-author: "Your Name Here"
+author: "Nuria Diaz "
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 format:
   html:
@@ -40,7 +40,10 @@ Join together the election results and urban/suburban/rural tables above, and th
 -   group_by and summarize to calculate the mean pct of Trump 2020 vote (`pct_r_2020`) by urban/rural categories (`rural_urban`)
 
 ```{r}
-
+inner_join(counties_demographics, counties_rural_urban_suburban) %>% 
+  filter(state_code == "VA") %>% 
+  group_by(rural_urban) %>% 
+  summarize(average = mean(pct_r_2020))
 
 
 
@@ -57,7 +60,15 @@ Using the joined election results / urban/suburban/rural table created above:
 ```{r}
 
 
+inner_join(counties_demographics, counties_rural_urban_suburban) %>% 
+  filter(state_code == "VA") %>% 
+  group_by(rural_urban) %>% 
+  summarize(n())
 
+newtable <- inner_join(counties_demographics, counties_rural_urban_suburban) %>% 
+  filter(state_code == "VA") %>% 
+  group_by(rural_urban) %>% 
+  summarize(n()) 
 
 ```
 
@@ -72,7 +83,9 @@ Join together the election results and demographics tables above, and then use t
 ```{r}
 
 
-
+inner_join(counties_elexresults, counties_demographics) %>% 
+  filter(state_code == "FL") %>% 
+  group_by(pct_ed_college_all_abovebelow_natl) %>% 
 
 ```
 
@@ -86,7 +99,9 @@ Using the joined table you made above:
 
 ```{r}
 
-
+inner_join(counties_elexresults, counties_demographics) %>% 
+    group_by(pct_ed_college_all_abovebelow_natl) %>% 
+    summarize(average = mean(republican_2020))
 
 
 ```
@@ -98,6 +113,12 @@ Now using the joined datasets above, come up with two groupings you find interes
 ```{r}
 
 
+#interested in seeing how nonwhite voters voted in the elections specifically the average mean for the democratic candidates in Texas. 
+
+inner_join(counties_elexresults, counties_demographics) %>% 
+  filter(state_code == "TX") %>% 
+  group_by(pct_race_nonwhite) %>% 
+  summarize(average = mean(democrat_2020))
 
 
 ```
@@ -106,7 +127,11 @@ Now using the joined datasets above, come up with two groupings you find interes
 
 ```{r}
 
-
+#looking at immigrant voting paterns in Texas specifically 
+inner_join(counties_elexresults, counties_demographics) %>% 
+  filter(state_code == "TX") %>% 
+  group_by(pct_born_foreign) %>% 
+  summarize(average = mean(democrat_2020))
 
 
 
@@ -120,6 +145,8 @@ Up until now we've joined two tables together. But we actually have three tables
 
 
 
+tablea <- inner_join(counties_elexresults, counties_demographics)
+inner_join(tablea, counties_rural_urban_suburban)
 
 
 
