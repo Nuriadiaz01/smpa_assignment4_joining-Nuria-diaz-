@@ -150,4 +150,7 @@ inner_join(tablea, counties_rural_urban_suburban)
 
 
 
+git config --global user.email "nuriadiaz02@gwu.edu"
+  git config --global user.name "Nuridiaz01"
+
 ```
